@@ -75,7 +75,9 @@ export default function Index() {
 }
 
 const styles = StyleSheet.create({
-  center: { alignItems: "center" },
+  center: {
+    alignItems: "center",
+  },
   button: {
     backgroundColor: "#7582d6",
     borderRadius: 10,

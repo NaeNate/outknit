@@ -4,15 +4,14 @@ import { Picker } from "@react-native-picker/picker"
 import { copyAsync, deleteAsync, documentDirectory } from "expo-file-system"
 import { launchImageLibraryAsync } from "expo-image-picker"
 import { useEffect, useState } from "react"
-import { Image, Modal, Pressable, Text, View } from "react-native"
-
-type Clothing = { name: string; type: string }[]
+import { Image, Modal, Pressable, StyleSheet, Text, View } from "react-native"
+import { Clothing } from "./index"
 
 export default function Library() {
   const [images, setImages] = useState<Clothing>([])
   const [showModal, setShowModal] = useState(false)
   const [uri, setUri] = useState("")
-  const [type, setType] = useState("")
+  const [type, setType] = useState("top")
 
   useEffect(() => {
     const x = async () => {
@@ -53,11 +52,11 @@ export default function Library() {
   }
 
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
+    <View style={{ marginTop: 100 }}>
+      <View>
         {images.map(({ name }) => {
           return (
-            <View>
+            <View key={name}>
               <Image
                 source={{ uri: documentDirectory + name }}
                 width={40}
@@ -78,31 +77,42 @@ export default function Library() {
 
       {showModal && (
         <Modal animationType="slide">
-          <Pressable
-            onPress={() => setShowModal(false)}
-            style={{ marginTop: 50 }}
-          >
-            <Icons name="close" size={24} color="black" />
-          </Pressable>
+          <View style={{ margin: 20 }}>
+            <Pressable onPress={() => setShowModal(false)}>
+              <Icons
+                name="close"
+                size={24}
+                color="black"
+                style={{ textAlign: "right", marginTop: 20 }}
+              />
+            </Pressable>
 
-          <Pressable onPress={selectImage}>
-            <Text>Select Image</Text>
-          </Pressable>
+            <Pressable onPress={selectImage} style={styles.button}>
+              <Text>Select Image</Text>
+            </Pressable>
 
-          <Picker
-            selectedValue={type}
-            onValueChange={(value) => setType(value)}
-            itemStyle={{ color: "black" }}
-          >
-            <Picker.Item value="top" label="Top" />
-            <Picker.Item value="bottom" label="Bottom" />
-          </Picker>
+            <Picker
+              selectedValue={type}
+              onValueChange={(value) => setType(value)}
+            >
+              <Picker.Item value="top" label="Top" />
+              <Picker.Item value="bottom" label="Bottom" />
+            </Picker>
 
-          <Pressable onPress={submitClothing}>
-            <Text>Submit</Text>
-          </Pressable>
+            <Pressable onPress={submitClothing} style={styles.button}>
+              <Text>Submit</Text>
+            </Pressable>
+          </View>
         </Modal>
       )}
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  button: {
+    backgroundColor: "#7582d6",
+    borderRadius: 10,
+    padding: 10,
+  },
+})

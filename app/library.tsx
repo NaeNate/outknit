@@ -52,7 +52,7 @@ export default function Library() {
   }
 
   return (
-    <View style={{ marginTop: 100 }}>
+    <View>
       <View>
         {images.map(({ name }) => {
           return (

@@ -42,7 +42,7 @@ export default function Index() {
   }
 
   return (
-    <View style={{ marginTop: 100 }}>
+    <View>
       <View style={styles.center}>
         {top && (
           <Pressable onPress={() => setTopLock(!topLock)}>
